@@ -1,0 +1,24 @@
+{
+  "name": "Zirrat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.php",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ejiwen/WP-Theme-Zirrat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ejiwen/WP-Theme-Zirrat/issues"
+  },
+  "homepage": "https://github.com/Ejiwen/WP-Theme-Zirrat#readme",
+  "dependencies": {
+    "node-sass": "^5.0.0"
+  }
+}
