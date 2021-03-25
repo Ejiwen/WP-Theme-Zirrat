@@ -1,38 +1,72 @@
-import gulp from "gulp";
+// import gulp from "gulp";
+// var sass = require('gulp-sass');
+// import browserSync from 'browser-sync';
+
+// export const hello = (done) => {
+//   console.log('Hello');
+//   done();
+// }
+
+
+// export const styles = () => {
+//   return gulp.src('src/scss/bundle.scss')
+//     .pipe(sass().on('error', sass.logError))
+//     .pipe(gulp.dest('dist/'))
+// }
+
+
+// export const watch = () => {
+//   gulp.watch('src/scss/**/*.scss', gulp.series(styles, reload));
+//   gulp.watch('**/*.php', reload);
+// }
+
+// const server = browserSync.create();
+
+// export let serve = (cb) => {
+//   server.init({
+//     proxy: "localhost/wptraining",
+//   });
+//   cb();
+// }
+
+// export let reload = (cb) => {
+//   browserSync.reload();
+//   cb();
+// }
+
+// export const dev = gulp.series(styles, serve, watch);
+
+// Require gulp packages
+var gulp = require('gulp');
 var sass = require('gulp-sass');
-import browserSync from 'browser-sync';
+var browsersync = require('browser-sync');
+var reload = browsersync.reload;
 
-export const hello = (done) => {
-  console.log('Hello');
-  done();
-}
-
-
-export const styles = () => {
-  return gulp.src('src/scss/bundle.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('dist/'));
-}
+// Task 1 - Compile and minify Sass
+gulp.task('sass', function () {
+  return gulp.src('./src/scss/sass/*.scss')
+    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+    .pipe(gulp.dest('./dist'));
+});
 
 
-export const watch = () => {
-  gulp.watch('src/scss/**/*.scss', gulp.series(styles, serve,reload));
-  gulp.watch('**/*.php', reload);
-}
+// Task 4 - Set up Browsersync
 
-const server = browserSync.create();
-
-export const serve = (cb) => {
-  server.init({
-    proxy: "http://localhost/wptraining/",
-    baseDir: '.'
+gulp.task('browser-sync', function() {
+  browsersync.init({
+  proxy: 'localhost/wptraining'
   });
-  cb();
-}
+});
 
-export const reload = (cb) => {
-  server.reload();
-  cb();
-}
+gulp.task('reload', function () {
+  browsersync.reload();
+});
 
-export const dev = gulp.series(styles, serve, watch);
+// Task 5 - Set up Watchers
+gulp.task('watch', function() {
+  gulp.watch('./src/scss/sass/*.scss' ['sass']);
+  gulp.watch(['./src/scss/sass/*.scss', './src/js/*.js', '*.php'], ['reload']);
+});
+
+// Default Gulp tasks
+gulp.task('default', ['sass', 'js', 'browser-sync', 'watch' ]);
