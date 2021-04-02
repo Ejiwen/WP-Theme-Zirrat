@@ -1,72 +1,66 @@
-// import gulp from "gulp";
-// var sass = require('gulp-sass');
-// import browserSync from 'browser-sync';
+import gulp from 'gulp';
+import yargs from 'yargs';
+import sass from 'gulp-sass';
+import cleanCSS from 'gulp-clean-css';
+import gulpif from 'gulp-if';
+import sourcemaps from 'gulp-sourcemaps';
+import imagemin from 'gulp-imagemin';
+import del from 'del';
+import browserSync from 'browser-sync';
 
-// export const hello = (done) => {
-//   console.log('Hello');
-//   done();
-// }
+const server = browserSync.create();
 
+const PRODUCTION = yargs.argv.prod;
 
-// export const styles = () => {
-//   return gulp.src('src/scss/bundle.scss')
-//     .pipe(sass().on('error', sass.logError))
-//     .pipe(gulp.dest('dist/'))
-// }
+const paths = {
+	styles: {
+		src:'src/scss/bundle.scss',
+		dest: 'dist/assets/css'
+	},
+  images: {
+    src:'src/images/**/*.{jpg,jpeg,png,svg,gif}',
+		dest: 'dist/assets/images'
+  },
+  scripts: {
+    src:'src/js/index.js',
+		dest: 'dist/assets/js'
+  }
+}
 
-
-// export const watch = () => {
-//   gulp.watch('src/scss/**/*.scss', gulp.series(styles, reload));
-//   gulp.watch('**/*.php', reload);
-// }
-
-// const server = browserSync.create();
-
-// export let serve = (cb) => {
-//   server.init({
-//     proxy: "localhost/wptraining",
-//   });
-//   cb();
-// }
-
-// export let reload = (cb) => {
-//   browserSync.reload();
-//   cb();
-// }
-
-// export const dev = gulp.series(styles, serve, watch);
-
-// Require gulp packages
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var browsersync = require('browser-sync');
-var reload = browsersync.reload;
-
-// Task 1 - Compile and minify Sass
-gulp.task('sass', function () {
-  return gulp.src('./src/scss/sass/*.scss')
-    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-    .pipe(gulp.dest('./dist'));
-});
-
-
-// Task 4 - Set up Browsersync
-
-gulp.task('browser-sync', function() {
-  browsersync.init({
-  proxy: 'localhost/wptraining'
+export const serve = (done) => {
+  server.init({
+    proxy: "https://localhost/wptraining"
   });
-});
+  done();
+}
 
-gulp.task('reload', function () {
-  browsersync.reload();
-});
+export const reload = (done) => {
+  server.reload();
+  done();
+}
 
-// Task 5 - Set up Watchers
-gulp.task('watch', function() {
-  gulp.watch('./src/scss/sass/*.scss' ['sass']);
-  gulp.watch(['./src/scss/sass/*.scss', './src/js/*.js', '*.php'], ['reload']);
-});
+export const clean = () => del(['dist']);
 
-// Default Gulp tasks
-gulp.task('default', ['sass', 'js', 'browser-sync', 'watch' ]);
+export const styles = () => {
+  return gulp.src(paths.styles.src)
+    .pipe(gulpif(!PRODUCTION, sourcemaps.init()))
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulpif(PRODUCTION, cleanCSS({compatibility: 'ie8'})))
+    .pipe(gulpif(!PRODUCTION, sourcemaps.write()))
+    .pipe(gulp.dest(paths.styles.dest));
+}
+
+export const images = () => {
+  return gulp.src(paths.images.src)
+  .pipe(gulpif(PRODUCTION, imagemin()))
+  .pipe(gulp.dest(paths.images.dest));
+}
+
+export const watch = () => {
+	gulp.watch('src/scss/sass/**/*.scss', gulp.series(styles, reload))
+  gulp.watch(paths.images.src, images)
+}
+
+
+export const dev = gulp.series(clean, gulp.parallel(styles, images), serve, watch);
+export const build = gulp.series(clean, gulp.parallel(styles, images));

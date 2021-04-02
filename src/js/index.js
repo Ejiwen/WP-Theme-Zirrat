@@ -1,5 +1,5 @@
 import helloMe from "./scripts/helloMe"
 
-console.log("Hello World ... ");
+console.log("Hello World ");
 
 helloMe("cheikhany");

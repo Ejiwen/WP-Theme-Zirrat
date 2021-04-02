@@ -1,5 +1,5 @@
 {
-  "name": "Zirrat",
+  "name": "zirrat",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -19,17 +19,27 @@
     "url": "https://github.com/Ejiwen/WP-Theme-Zirrat/issues"
   },
   "homepage": "https://github.com/Ejiwen/WP-Theme-Zirrat#readme",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-uglify": "^3.0.2",
+    "remove": "^0.1.5",
+    "yargs": "^16.2.0"
+  },
   "devDependencies": {
-    "@babel/core": "^7.13.10",
+    "@babel/core": "^7.13.14",
     "@babel/preset-env": "^7.13.12",
-    "@babel/register": "^7.13.8",
+    "@babel/register": "^7.13.14",
     "browser-sync": "^2.26.14",
+    "del": "^6.0.0",
     "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-if": "^3.0.0",
+    "gulp-imagemin": "^7.1.0",
     "gulp-sass": "^4.1.0",
+    "gulp-sourcemaps": "^3.0.0",
     "node-sass": "^5.0.0",
     "webpack": "^5.27.2",
     "webpack-cli": "^4.5.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "webpack-stream": "^6.1.2"
   }
 }
