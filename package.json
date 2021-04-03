@@ -36,6 +36,7 @@
     "gulp-imagemin": "^7.1.0",
     "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^3.0.0",
+    "gulp-zip": "^5.1.0",
     "node-sass": "^5.0.0",
     "webpack": "^5.27.2",
     "webpack-cli": "^4.5.0",
