@@ -70,6 +70,7 @@ export const images = () => {
 export const watch = () => {
 	// gulp.watch('src/scss/sass/**/*.scss', gulp.series(styles, reload))
   gulp.watch(['src/scss/sass/base/_base.scss','src/scss/*.scss'], styles)
+  gulp.watch('**/*.php', reload)
   gulp.watch(paths.images.src, images)
 }
 
