@@ -1,3 +1,3 @@
-<?php wp_head() ?>
+<?php get_header() ?>
 <h1> Hey ,Some Test </h1>
-<?php wp_footer() ?>
+<?php get_footer() ?>
