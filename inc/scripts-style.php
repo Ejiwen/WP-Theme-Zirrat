@@ -13,3 +13,11 @@ function zirrat_scripts_admin() {
 }
 
 add_action( 'admin_enqueue_scripts', 'zirrat_scripts_admin' );
+
+/* Add menu to the theme */
+function university_features() {
+    register_nav_menu('headerMenuLocation','Header Menu Location');
+    add_theme_support('title-tag');
+  }
+  
+  add_action('after_setup_theme', 'university_features');
